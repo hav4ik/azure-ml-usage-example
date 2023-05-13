@@ -1,6 +1,13 @@
 from azureml.core import Run, Dataset, Workspace
 import os
+import subprocess
+import sys
 
+# Install packages
+subprocess.check_call([sys.executable, "-m", "pip", "install", "transformers"])
+
+# Import installed packages
+import transformers
 
 # get the Azure ML run object
 run = Run.get_context()
@@ -9,7 +16,7 @@ run = Run.get_context()
 workspace = run.experiment.workspace
 
 # Mount the dataset to local path
-dataset = Dataset.get_by_name(workspace=workspace, name='sample_data')
+dataset = Dataset.get_by_name(workspace=workspace, name='sample_dataset')
 mount_context = dataset.mount()
 mount_context.start()
 data_path = mount_context.mount_point
